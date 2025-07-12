@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenpoh Snow Car Wash - Sistem Informasi Layanan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --secondary: #f9a825;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #777;
+            --danger: #d32f2f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            color: white;
+        }
+        
+        .header-text h1 {
+            color: var(--primary-dark);
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header-text p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 20px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .card-header h2 {
+            color: var(--primary-dark);
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            transition: border 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        .queue-display {
+            background-color: var(--primary);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .queue-display h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .queue-number {
+            font-size: 56px;
+            font-weight: 700;
+            margin: 15px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .current-status {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        
+        .package-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .package-card {
+            border: 2px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .package-card:hover, .package-card.selected {
+            border-color: var(--primary);
+            background-color: rgba(46, 125, 50, 0.05);
+        }
+        
+        .package-card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        
+        .package-card .price {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .notification {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification.success {
+            background-color: rgba(46, 125, 50, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .notification i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-waiting {
+            background-color: #ffecb3;
+            color: #f57f17;
+        }
+        
+        .badge-processing {
+            background-color: #bbdefb;
+            color: #1565c0;
+        }
+        
+        .badge-completed {
+            background-color: #c8e6c9;
+            color: var(--primary-dark);
+        }
+        
+        .admin-section {
+            display: none;
+        }
+        
+        .receipt {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .receipt-header h2 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .receipt-details {
+            margin: 20px 0;
+        }
+        
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .receipt-total {
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 15px;
+            border-top: 2px solid #eee;
+            padding-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="header-text">
+                    <h1>Greenpoh Snow Car Wash</h1>
+                    <p>Sistem Informasi Layanan Berbasis Web</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active" data-page="customer">Pelanggan</a></li>
+                    <li><a href="#" data-page="admin">Admin</a></li>
+                    <li><a href="#" data-page="reports">Laporan</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="main-content">
+            <div class="content-left">
+                <!-- Customer Section -->
+                <div id="customer-section">
+                    <div class="notification success">
+                        <i class="fas fa-info-circle"></i>
+                        <div>Selamat datang! Silakan isi data kendaraan Anda untuk memulai layanan.</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-car"></i> Data Pelanggan & Kendaraan</h2>
+                        </div>
+                        <form id="customer-form">
+                            <div class="form-group">
+                                <label for="customer-name">Nama Pelanggan</label>
+                                <input type="text" id="customer-name" class="form-control" placeholder="Masukkan nama lengkap" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer-phone">Nomor Telepon</label>
+                                <input type="tel" id="customer-phone" class="form-control" placeholder="Masukkan nomor telepon" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vehicle-number">Plat Nomor Kendaraan</label>
+                                <input type="text" id="vehicle-number" class="form-control" placeholder="Contoh: B 1234 ABC" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vehicle-type">Jenis Kendaraan</label>
+                                <select id="vehicle-type" class="form-control" required>
+                                    <option value="">Pilih jenis kendaraan</option>
+                                    <option value="Sedan">Sedan</option>
+                                    <option value="SUV">SUV</option>
+                                    <option value="MPV">MPV</option>
+                                    <option value="Hatchback">Hatchback</option>
+                                    <option value="Pickup">Pickup</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Lanjutkan ke Paket Layanan</button>
+                        </form>
+                    </div>
+                    
+                    <div class="card" id="package-section" style="display: none;">
+                        <div class="card-header">
+                            <h2><i class="fas fa-spa"></i> Pilih Paket Pencucian</h2>
+                        </div>
+                        
+                        <div class="package-container">
+                            <div class="package-card" data-package="basic">
+                                <h4>Basic Wash</h4>
+                                <p>Cuci eksterior dasar</p>
+                                <div class="price">Rp 40.000</div>
+                            </div>
+                            
+                            <div class="package-card" data-package="standard">
+                                <h4>Standard Wash</h4>
+                                <p>Cuci eksterior + vacuum</p>
+                                <div class="price">Rp 70.000</div>
+                            </div>
+                            
+                            <div class="package-card" data-package="premium">
+                                <h4>Premium Wash</h4>
+                                <p>Cuci eksterior & interior lengkap</p>
+                                <div class="price">Rp 120.000</div>
+                            </div>
+                            
+                            <div class="package-card" data-package="deluxe">
+                                <h4>Deluxe Wash</h4>
+                                <p>Paket premium + wax & perawatan ban</p>
+                                <div class="price">Rp 180.000</div>
+                            </div>
+                        </div>
+                        
+                        <button id="confirm-package" class="btn btn-primary btn-block" style="margin-top: 20px; display: none;">Konfirmasi & Dapatkan Antrian</button>
+                    </div>
+                    
+                    <div class="card" id="queue-section" style="display: none;">
+                        <div class="card-header">
+                            <h2><i class="fas fa-ticket-alt"></i> Nomor Antrian Anda</h2>
+                        </div>
+                        
+                        <div class="queue-display">
+                            <h3>ANTRIAN SAAT INI</h3>
+                            <div class="queue-number" id="queue-number">A-012</div>
+                            <p>Status: <span class="current-status" id="queue-status">MENUNGGU</span></p>
+                        </div>
+                        
+                        <div class="notification">
+                            <i class="fas fa-info-circle"></i>
+                            <div>Silakan menunggu panggilan antrian. Estimasi waktu tunggu: <strong>15-20 menit</strong></div>
+                        </div>
+                        
+                        <button id="payment-btn" class="btn btn-secondary btn-block">Proses Pembayaran</button>
+                    </div>
+                </div>
+                
+                <!-- Admin Section -->
+                <div id="admin-section" class="admin-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-user-cog"></i> Panel Admin</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="admin-search">Cari Pelanggan</label>
+                            <input type="text" id="admin-search" class="form-control" placeholder="Cari berdasarkan nama atau plat nomor">
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>No. Antrian</th>
+                                        <th>Nama</th>
+                                        <th>Plat Nomor</th>
+                                        <th>Paket</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-queue-list">
+                                    <tr>
+                                        <td>A-010</td>
+                                        <td>Budi Santoso</td>
+                                        <td>B 1234 AB</td>
+                                        <td>Standard Wash</td>
+                                        <td><span class="badge badge-completed">SELESAI</span></td>
+                                        <td><button class="btn btn-primary">Detail</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>A-011</td>
+                                        <td>Siti Rahayu</td>
+                                        <td>AD 567 CD</td>
+                                        <td>Premium Wash</td>
+                                        <td><span class="badge badge-processing">DIPROSES</span></td>
+                                        <td><button class="btn btn-primary">Detail</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>A-012</td>
+                                        <td>Andi Wijaya</td>
+                                        <td>B 7890 EF</td>
+                                        <td>Deluxe Wash</td>
+                                        <td><span class="badge badge-waiting">MENUNGGU</span></td>
+                                        <td><button class="btn btn-primary">Detail</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reports Section -->
+                <div id="reports-section" class="admin-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-chart-bar"></i> Laporan Transaksi</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="report-period">Pilih Periode</label>
+                            <select id="report-period" class="form-control">
+                                <option value="today">Hari Ini</option>
+                                <option value="week">Minggu Ini</option>
+                                <option value="month" selected>Bulan Ini</option>
+                                <option value="year">Tahun Ini</option>
+                            </select>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>No. Antrian</th>
+                                        <th>Pelanggan</th>
+                                        <th>Paket</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-data">
+                                    <tr>
+                                        <td>12/07/2024</td>
+                                        <td>A-010</td>
+                                        <td>Budi Santoso</td>
+                                        <td>Standard Wash</td>
+                                        <td>Rp 70.000</td>
+                                        <td>Selesai</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12/07/2024</td>
+                                        <td>A-011</td>
+                                        <td>Siti Rahayu</td>
+                                        <td>Premium Wash</td>
+                                        <td>Rp 120.000</td>
+                                        <td>Selesai</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12/07/2024</td>
+                                        <td>A-009</td>
+                                        <td>Rina Permata</td>
+                                        <td>Basic Wash</td>
+                                        <td>Rp 40.000</td>
+                                        <td>Selesai</td>
+                                    </tr>
+                                    <tr>
+                                        <td>11/07/2024</td>
+                                        <td>A-008</td>
+                                        <td>Joko Susilo</td>
+                                        <td>Deluxe Wash</td>
+                                        <td>Rp 180.000</td>
+                                        <td>Selesai</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" style="text-align: right; font-weight: 700;">Total Pendapatan:</td>
+                                        <td colspan="2" style="font-weight: 700;">Rp 410.000</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-right">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-list-ol"></i> Antrian Berjalan</h2>
+                    </div>
+                    
+                    <div class="queue-display" style="background-color: #1565c0;">
+                        <h3>SEDANG DIPROSES</h3>
+                        <div class="queue-number">A-011</div>
+                        <p>SUV - AD 567 CD</p>
+                    </div>
+                    
+                    <h3 style="margin: 20px 0 10px;">Antrian Menunggu</h3>
+                    <div class="queue-list">
+                        <div class="queue-item">
+                            <div class="queue-number" style="font-size: 24px; font-weight: 700;">A-012</div>
+                            <div>Sedan - B 7890 EF</div>
+                        </div>
+                        <div class="queue-item" style="margin-top: 15px; opacity: 0.7;">
+                            <div class="queue-number" style="font-size: 20px; font-weight: 600;">A-013</div>
+                            <div>MPV - H 2345 JK</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-info-circle"></i> Informasi Layanan</h2>
+                    </div>
+                    
+                    <div class="info-content">
+                        <p><strong>Jam Operasional:</strong></p>
+                        <p>Senin - Minggu: 08:00 - 20:00 WIB</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Lokasi:</strong></p>
+                        <p>Jl. Pahlawan No. 123, Pati, Jawa Tengah</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Kontak:</strong></p>
+                        <p>(0295) 1234567</p>
+                        <p>info@greenpohcarwash.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Receipt Section -->
+        <div class="receipt" id="receipt">
+            <div class="receipt-header">
+                <h2>GREENPOH SNOW CAR WASH</h2>
+                <p>Jl. Pahlawan No. 123, Pati, Jawa Tengah</p>
+                <p>Telp: (0295) 1234567</p>
+            </div>
+            
+            <div class="receipt-details">
+                <div class="receipt-row">
+                    <div>No. Antrian:</div>
+                    <div><strong id="receipt-queue">A-012</strong></div>
+                </div>
+                <div class="receipt-row">
+                    <div>Tanggal:</div>
+                    <div id="receipt-date">12 Juli 2024 14:30</div>
+                </div>
+                <div class="receipt-row">
+                    <div>Nama Pelanggan:</div>
+                    <div id="receipt-name">Andi Wijaya</div>
+                </div>
+                <div class="receipt-row">
+                    <div>Kendaraan:</div>
+                    <div id="receipt-vehicle">Sedan (B 7890 EF)</div>
+                </div>
+                <div class="receipt-row">
+                    <div>Paket Layanan:</div>
+                    <div id="receipt-package">Deluxe Wash</div>
+                </div>
+                <div class="receipt-row">
+                    <div>Harga:</div>
+                    <div id="receipt-price">Rp 180.000</div>
+                </div>
+            </div>
+            
+            <div class="receipt-total">
+                <div class="receipt-row">
+                    <div>TOTAL:</div>
+                    <div id="receipt-total">Rp 180.000</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <p>Terima kasih atas kunjungan Anda</p>
+                <p>** Layanan terbaik untuk kendaraan Anda **</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = {
+                'customer': document.getElementById('customer-section'),
+                'admin': document.getElementById('admin-section'),
+                'reports': document.getElementById('reports-section')
+            };
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    
+                    // Update active link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected section
+                    Object.values(sections).forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    if (page === 'customer') {
+                        sections.customer.style.display = 'block';
+                    } else {
+                        document.querySelectorAll('.admin-section').forEach(section => {
+                            section.style.display = 'none';
+                        });
+                        sections[page].style.display = 'block';
+                    }
+                });
+            });
+            
+            // Customer Form
+            const customerForm = document.getElementById('customer-form');
+            const packageSection = document.getElementById('package-section');
+            const queueSection = document.getElementById('queue-section');
+            
+            customerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                packageSection.style.display = 'block';
+                
+                // Scroll to package section
+                packageSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Package Selection
+            const packageCards = document.querySelectorAll('.package-card');
+            const confirmBtn = document.getElementById('confirm-package');
+            let selectedPackage = null;
+            
+            packageCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    packageCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedPackage = this.getAttribute('data-package');
+                    confirmBtn.style.display = 'block';
+                });
+            });
+            
+            // Confirm Package
+            confirmBtn.addEventListener('click', function() {
+                queueSection.style.display = 'block';
+                document.getElementById('queue-number').textContent = 'A-012';
+                
+                // Generate random queue number
+                const queueNum = Math.floor(Math.random() * 5) + 12;
+                document.getElementById('queue-number').textContent = `A-${queueNum.toString().padStart(3, '0')}`;
+                
+                // Scroll to queue section
+                queueSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Payment Button
+            const paymentBtn = document.getElementById('payment-btn');
+            const receipt = document.getElementById('receipt');
+            
+            paymentBtn.addEventListener('click', function() {
+                // Update receipt data
+                document.getElementById('receipt-queue').textContent = document.getElementById('queue-number').textContent;
+                document.getElementById('receipt-name').textContent = document.getElementById('customer-name').value;
+                document.getElementById('receipt-vehicle').textContent = 
+                    `${document.getElementById('vehicle-type').value} (${document.getElementById('vehicle-number').value})`;
+                
+                // Set package and price
+                let packageName, packagePrice;
+                switch(selectedPackage) {
+                    case 'basic':
+                        packageName = 'Basic Wash';
+                        packagePrice = 'Rp 40.000';
+                        break;
+                    case 'standard':
+                        packageName = 'Standard Wash';
+                        packagePrice = 'Rp 70.000';
+                        break;
+                    case 'premium':
+                        packageName = 'Premium Wash';
+                        packagePrice = 'Rp 120.000';
+                        break;
+                    case 'deluxe':
+                        packageName = 'Deluxe Wash';
+                        packagePrice = 'Rp 180.000';
+                        break;
+                }
+                
+                document.getElementById('receipt-package').textContent = packageName;
+                document.getElementById('receipt-price').textContent = packagePrice;
+                document.getElementById('receipt-total').textContent = packagePrice;
+                
+                // Set current date
+                const now = new Date();
+                const options = { 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                document.getElementById('receipt-date').textContent = now.toLocaleDateString('id-ID', options);
+                
+                // Show receipt
+                receipt.style.display = 'block';
+                
+                // Scroll to receipt
+                receipt.scrollIntoView({ behavior: 'smooth' });
+                
+                // Update queue status
+                document.getElementById('queue-status').textContent = 'SELESAI';
+            });
+            
+            // Simulate queue progression
+            setInterval(() => {
+                const status = document.getElementById('queue-status');
+                if (status && status.textContent === 'MENUNGGU') {
+                    status.textContent = 'DIPROSES';
+                    status.style.color = '#1565c0';
+                    status.style.fontWeight = '700';
+                }
+            }, 15000);
+        });
+    </script>
+</body>
+</html>
